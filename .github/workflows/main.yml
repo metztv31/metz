@@ -1,0 +1,26 @@
+
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © kamlesh512
+
+//@version=5
+indicator(" vital gaps")
+f=input(defval = 1.05)
+g= open>close[1]*f
+// lets getbdifferentntimeframe data
+d_tf= input.timeframe("D",title = "daily")
+w_tf= input.timeframe("W",title = "Weekly")
+m_tf= input.timeframe("M", title = "monthly")
+q_tf= input.timeframe("3M",title = "Q")
+y_tf= input.timeframe("12M",title = "Y")
+
+dg=request.security(syminfo.tickerid,d_tf,g,gaps = barmerge.gaps_off,lookahead=barmerge.lookahead_off)
+wg=request.security(syminfo.tickerid,w_tf,g,gaps = barmerge.gaps_off,lookahead=barmerge.lookahead_off)
+mg=request.security(syminfo.tickerid,m_tf,g,gaps = barmerge.gaps_off,lookahead=barmerge.lookahead_off)
+qg=request.security(syminfo.tickerid,q_tf,g,gaps = barmerge.gaps_off,lookahead=barmerge.lookahead_off)
+yg=request.security(syminfo.tickerid,y_tf,g,gaps = barmerge.gaps_off,lookahead=barmerge.lookahead_off)
+
+bgcolor(dg ? #880e4f3b:na,title = "d",force_overlay = true)
+bgcolor(wg ? color.rgb(50, 250, 250, 3):na,title = "w",force_overlay = true)
+bgcolor(mg ? color.rgb(12, 67, 247, 54):na,title = "m",force_overlay = true)
+bgcolor(qg ? #23fa9d75:na,title = "q",force_overlay = true)
+bgcolor(yg ? color.rgb(32, 5, 19, 54):na,title = "y",force_overlay = true)
